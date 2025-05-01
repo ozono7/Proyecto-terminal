@@ -20,19 +20,15 @@ datos_biomasa <- data.frame(
 
 # Transformar datos a formato largo
 datos_correlacion <- datos_biomasa %>%
-  pivot_longer(cols = starts_with("B"),
-               names_to = "Biomasa_Rep",
-               values_to = "Biomasa") %>%
-  pivot_longer(cols = starts_with("OD"),
-               names_to = "OD_Rep",
-               values_to = "OD") %>%
+  pivot_longer(cols = c(B1, B2, B3), names_to = "Biomasa_Rep", values_to = "Biomasa") %>%
+  pivot_longer(cols = c(OD1, OD2, OD3), names_to = "OD_Rep", values_to = "OD") %>%
+  filter(substr(Biomasa_Rep, 2, 2) == substr(OD_Rep, 3, 3)) %>%
   mutate(
-    Réplica = factor(gsub("\\D+", "", Biomasa_Rep), levels = 1:3, labels = paste0("R", 1:3)),
+    Réplica = factor(substr(Biomasa_Rep, 2, 2), levels = 1:3, labels = paste0("R", 1:3)),
     Biomasa = as.numeric(Biomasa),
     OD = as.numeric(OD)
   ) %>%
-  filter(gsub("\\D+", "", Biomasa_Rep) == gsub("\\D+", "", OD_Rep)) %>%
-  select(Dias, Biomasa, OD, Réplica)
+  dplyr::select(Dias, Biomasa, OD, Réplica)
 
 # Calcular el modelo lineal para la correlación
 modelo_correlacion <- lm(Biomasa ~ OD, data = datos_correlacion)
@@ -43,12 +39,11 @@ ecuacion <- paste0("y = ", round(coef(modelo_correlacion)[2], 4), "x + ", round(
 # Encontrar los límites para los ejes con un margen
 margen_x <- (max(datos_correlacion$OD) - min(datos_correlacion$OD)) * 0.05
 margen_y <- (max(datos_correlacion$Biomasa) - min(datos_correlacion$Biomasa)) * 0.05
-
 limites_x <- c(min(datos_correlacion$OD) - margen_x, max(datos_correlacion$OD) + margen_x)
 limites_y <- c(min(datos_correlacion$Biomasa) - margen_y, max(datos_correlacion$Biomasa) + margen_y)
 
 # Gráfico de correlación
-ggplot(datos_correlacion, aes(x = OD, y = Biomasa, color = Réplica)) +
+grafico <- ggplot(datos_correlacion, aes(x = OD, y = Biomasa, color = Réplica)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", formula = y ~ x, se = TRUE, fill = alpha("#FF6B6B", 0.2), color = "#FF6B6B") +
   annotate("text",
@@ -78,7 +73,10 @@ ggplot(datos_correlacion, aes(x = OD, y = Biomasa, color = Réplica)) +
     plot.margin = margin(20, 20, 20, 20)
   )
 
+# Mostrar el gráfico
+print(grafico)
+
 # Exportación
-ggsave("correlacion_OD_biomasa.png",
+ggsave("correlacion_OD_biomasa.png", plot = grafico,
        width = 15, height = 10, units = "cm",
        dpi = 1200, bg = "white")
