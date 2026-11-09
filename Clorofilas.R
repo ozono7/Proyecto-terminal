@@ -20,7 +20,7 @@ library(ggtext)
 
 # Nuevos datos de clorofila calculando la media de las repeticiones
 datos_clorofila <- data.frame(
-  Grupo = factor(rep(c("-50", "CONTROL", "50%", "100%"), each = 3), levels = c("CONTROL", "-50", "50%", "100%")),
+  Grupo = factor(rep(c("-50%", "CONTROL", "50%", "100%"), each = 3), levels = c("CONTROL", "-50%", "50%", "100%")),
   Repetición = factor(rep(1:3, 4)),
   Clorofila_Total = c(5.205627, 10.661413, 9.143213,
                       5.743707, 6.494213, 2.351240,
@@ -84,7 +84,7 @@ grafico_final_leyenda <- ggplot(datos_resumen_clorofila, aes(x = Grupo, y = Medi
                 position = position_dodge(0.7),
                 size = 0.8) +
   scale_fill_manual(values = c("CONTROL" = "#4ECDC4",
-                               "-50" = "#45B7D1",
+                               "-50%" = "#45B7D1",
                                "50%" = "#A593E0",
                                "100%" = "#FF6B6B"),
                     name = "Grupos:") +
@@ -121,14 +121,14 @@ grafico_final_leyenda <- ggplot(datos_resumen_clorofila, aes(x = Grupo, y = Medi
 print(grafico_final_leyenda)
 
 # Exportar en alta calidad
-ggsave("clorofila_tratamientos.tiff", plot = grafico_final_leyenda,
-       device = "tiff", dpi = 1200, bg = "white",
-       width = 10, height = 6, units = "in", compression = "lzw")
+ggsave("clorofila_tratamientos.png", plot = grafico_final_leyenda,
+       dpi = 300, bg = "white",
+       width = 10, height = 6, units = "in")
 
 # --------------------------------------------------------------------------
 # Interpretación: Concentración de Clorofila Total por Tratamiento
 # --------------------------------------------------------------------------
-# - Eje X: Grupo de Tratamiento (CONTROL, -50, 50% y 100%). Es una variable
+# - Eje X: Grupo de Tratamiento (CONTROL, -50%, 50% y 100%). Es una variable
 #   categórica, sin unidades: cada barra es un tratamiento distinto, no una cantidad
 #   que aumente de izquierda a derecha.
 # - Eje Y: Clorofila Total, en miligramos por litro (mg L⁻¹). La altura de cada
@@ -138,10 +138,10 @@ ggsave("clorofila_tratamientos.tiff", plot = grafico_final_leyenda,
 #   en mg L⁻¹, igual que el eje Y.
 # - Lo que se aprecia: las cuatro barras están en un rango parecido, entre aprox.
 #   4.86 y 8.34 mg L⁻¹. La más baja es el CONTROL (media de aprox. 4.86 mg L⁻¹) y
-#   la más alta es el tratamiento -50 (aprox. 8.34 mg L⁻¹), seguida del 100%
+#   la más alta es el tratamiento -50% (aprox. 8.34 mg L⁻¹), seguida del 100%
 #   (aprox. 8.07 mg L⁻¹) y del 50% (aprox. 7.52 mg L⁻¹). Es decir, en promedio los
 #   tres tratamientos quedaron por encima del control, pero las barras de error son
-#   anchas, sobre todo en el CONTROL y en -50, lo que indica mucha variación entre
+#   anchas, sobre todo en el CONTROL y en -50%, lo que indica mucha variación entre
 #   las repeticiones de un mismo tratamiento.
 # - Qué significa: en promedio los tratamientos acumularon más clorofila total que
 #   el control, pero la variación entre repeticiones es grande, así que la media

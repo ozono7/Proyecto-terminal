@@ -138,7 +138,9 @@ cat("RESULTADOS DEL MODELO GOMPERTZ\n")
 cat("----------------------------------------\n")
 cat(sprintf("A (asíntota) = %.4f (%.4f - %.4f)\n", A, conf_int["A",1], conf_int["A",2]))
 cat(sprintf("μ (tasa crecimiento) = %.4f h⁻¹ (%.4f - %.4f)\n", mu, conf_int["mu",1], conf_int["mu",2]))
-cat(sprintf("λ (tiempo latencia) = %.4f h (NA - %.4f)\n", lambda, conf_int["lambda",2]))
+# El límite inferior del IC de λ puede ser NA: se muestra "NA" solo en ese caso
+lambda_inf_txt <- if (is.na(conf_int["lambda", 1])) "NA" else sprintf("%.4f", conf_int["lambda", 1])
+cat(sprintf("λ (tiempo latencia) = %.4f h (%s - %.4f)\n", lambda, lambda_inf_txt, conf_int["lambda", 2]))
 cat(sprintf("μ_max (tasa máxima) = %.4f h⁻¹ (%.4f - %.4f)\n", mu_max, 
             (conf_int["mu",1] * A)/exp(1), 
             (conf_int["mu",2] * A)/exp(1)))
@@ -155,9 +157,9 @@ cat("----------------------------------------\n")
 # ------------------------------------
 # Formato similar al de la segunda imagen de referencia
 param_text <- paste(
-  "μ = ", sprintf("%.3f h-¹", mu), " | ",
+  "μ = ", sprintf("%.3f h⁻¹", mu), " | ",
   "λ = ", sprintf("%.1f h", lambda), " | ",
-  "μ max = ", sprintf("%.1e OD/h", mu_max),
+  "μ max = ", sprintf("%.1e h⁻¹", mu_max),
   sep = ""
 )
 
@@ -212,7 +214,6 @@ grafico <- ggplot() +
     title = "Ajuste del modelo de Gompertz",
     subtitle = param_text,  # Parámetros en subtítulo
     x = "Tiempo (horas)",
-    y = "log(N/N₀)",
     color = "Réplica"
   ) +
   # Estilo del gráfico
@@ -232,11 +233,11 @@ print(grafico)
 
 # Guardar gráfico en archivo
 # --------------------------
-# Formato PNG con alta resolución (1,200 dpi)
-ggsave("modelo_gompertz_final.tif", 
+# Formato PNG (300 dpi)
+ggsave("modelo_gompertz_final.png", 
        plot = grafico,
        width = 18, height = 14, units = "cm",
-       dpi = 1200, bg = "white")
+       dpi = 300, bg = "white")
 
 # --------------------------------------------------------------------------
 # Interpretación: Ajuste del modelo de Gompertz

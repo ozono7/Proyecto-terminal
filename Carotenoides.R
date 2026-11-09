@@ -121,9 +121,9 @@ grafico_final_carotenoides <- ggplot(datos_resumen_carotenoides, aes(x = Grupo, 
 print(grafico_final_carotenoides)
 
 # Exportar en alta calidad
-ggsave("carotenoides_tratamientos.tiff", plot = grafico_final_carotenoides,
-       device = "tiff", dpi = 1200, bg = "white",
-       width = 10, height = 6, units = "in", compression = "lzw")
+ggsave("carotenoides_tratamientos.png", plot = grafico_final_carotenoides,
+       dpi = 300, bg = "white",
+       width = 10, height = 6, units = "in")
 
 # --------------------------------------------------------------------------
 # Interpretación: Concentración de Carotenoides por Tratamiento

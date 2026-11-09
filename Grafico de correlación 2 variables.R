@@ -73,7 +73,7 @@ grafico <- ggplot(datos_correlacion, aes(x = OD, y = Biomasa, color = Réplica))
   scale_y_continuous(limits = limites_y, expand = c(0, 0)) +
   labs(
     title = "Correlación entre Densidad Óptica y Biomasa Seca",
-    x = "Densidad Óptica (OD600 nm)",
+    x = "Densidad Óptica (OD, medida a 600 nm)",
     y = "Biomasa Seca (g/L)"
   ) +
   theme_minimal(base_size = 12) +
@@ -93,7 +93,7 @@ print(grafico)
 # Exportación
 ggsave("correlacion_OD_biomasa.png", plot = grafico,
        width = 15, height = 10, units = "cm",
-       dpi = 1200, bg = "white")
+       dpi = 300, bg = "white")
 
 # --------------------------------------------------------------------------
 # Interpretación: Correlación entre Densidad Óptica y Biomasa Seca

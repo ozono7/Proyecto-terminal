@@ -131,9 +131,9 @@ grafico_final_leyenda <- ggplot(datos_resumen_lipidos,
 print(grafico_final_leyenda)
 
 # Exportar en alta calidad
-ggsave("rendimiento_lipidos.tiff", plot = grafico_final_leyenda,
-       device = "tiff", dpi = 1200, bg = "white",
-       width = 8, height = 6, units = "in", compression = "lzw")
+ggsave("rendimiento_lipidos.png", plot = grafico_final_leyenda,
+       dpi = 300, bg = "white",
+       width = 8, height = 6, units = "in")
 
 # --------------------------------------------------------------------------
 # Interpretación: Rendimiento de Lípidos Totales

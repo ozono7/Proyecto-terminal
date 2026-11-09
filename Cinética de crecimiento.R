@@ -116,7 +116,7 @@ ggplot() +
   labs(
     title = "Cinética de crecimiento",
     x = "Tiempo (días)",
-    y = "Densidad óptica (OD 600 nm)",
+    y = "Densidad óptica (OD, medida a 600 nm)",
     color = "Tratamiento",
     fill = "Tratamiento"
   ) +
