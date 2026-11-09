@@ -1,14 +1,16 @@
 # ==========================================================================
 # Concentración de clorofilas por tratamiento
 # ==========================================================================
-# Autor: José Juan Torres Martínez
-# Institución: Universidad Autónoma de San Luis Potosí (UASLP)
-# Doctorado en Ciencias en Bioprocesos
-# Laboratorio de Biotecnología Molecular de Células Vegetales y Bioinformática
+# Autor: Dr. José Juan Torres Martínez
+# Docente de Ciencias Químicas
+# Universidad Autónoma de San Luis Potosí (UASLP)
+# México
+#
 # Material académico para estudiantes
 #
 # Descripción: Análisis estadístico (prueba de Dunnett) y gráfico de la concentración de clorofilas por tratamiento.
 # ==========================================================================
+
 
 # 1. CARGAR PAQUETES Y DATOS
 # ----------------------------------
