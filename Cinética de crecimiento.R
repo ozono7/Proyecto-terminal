@@ -1,3 +1,15 @@
+# ==========================================================================
+# Cinética de crecimiento
+# ==========================================================================
+# Autor: José Juan Torres Martínez
+# Institución: Universidad Autónoma de San Luis Potosí (UASLP)
+# Doctorado en Ciencias en Bioprocesos
+# Laboratorio de Biotecnología Molecular de Células Vegetales y Bioinformática
+# Material académico para estudiantes
+#
+# Descripción: Análisis de la cinética de crecimiento celular a partir de datos de densidad óptica.
+# ==========================================================================
+
 # Cargar las librerías necesarias
 library(ggplot2)
 library(tidyr)

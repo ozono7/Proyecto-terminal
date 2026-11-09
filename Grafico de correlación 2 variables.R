@@ -1,3 +1,15 @@
+# ==========================================================================
+# Gráfico de correlación entre dos variables
+# ==========================================================================
+# Autor: José Juan Torres Martínez
+# Institución: Universidad Autónoma de San Luis Potosí (UASLP)
+# Doctorado en Ciencias en Bioprocesos
+# Laboratorio de Biotecnología Molecular de Células Vegetales y Bioinformática
+# Material académico para estudiantes
+#
+# Descripción: Análisis de correlación entre biomasa y una segunda variable, con gráfico en R.
+# ==========================================================================
+
 # Cargar las librerías necesarias
 library(ggplot2)
 library(tidyr)

@@ -1,8 +1,15 @@
-# ----------------------------------------------------
-# ANÁLISIS DE CRECIMIENTO MICROBIANO CON MODELO GOMPERTZ
-# ----------------------------------------------------
+# ==========================================================================
+# Análisis de crecimiento microbiano con modelo Gompertz
+# ==========================================================================
+# Autor: José Juan Torres Martínez
+# Institución: Universidad Autónoma de San Luis Potosí (UASLP)
+# Doctorado en Ciencias en Bioprocesos
+# Laboratorio de Biotecnología Molecular de Células Vegetales y Bioinformática
+# Material académico para estudiantes
+#
+# Descripción: Ajuste del modelo de Gompertz a datos de crecimiento microbiano (densidad óptica a 750 nm).
+# ==========================================================================
 
-# ====================================================
 # SECCIÓN 1: CONFIGURACIÓN INICIAL
 # ====================================================
 

@@ -1,3 +1,15 @@
+# ==========================================================================
+# Rendimiento de lípidos totales por tratamiento
+# ==========================================================================
+# Autor: José Juan Torres Martínez
+# Institución: Universidad Autónoma de San Luis Potosí (UASLP)
+# Doctorado en Ciencias en Bioprocesos
+# Laboratorio de Biotecnología Molecular de Células Vegetales y Bioinformática
+# Material académico para estudiantes
+#
+# Descripción: Análisis estadístico (prueba de Dunnett) y gráfico del rendimiento de lípidos totales por tratamiento.
+# ==========================================================================
+
 # 1. CARGAR PAQUETES Y DATOS
 # ----------------------------------
 library(tidyverse)
