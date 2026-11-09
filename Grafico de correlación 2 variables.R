@@ -94,3 +94,42 @@ print(grafico)
 ggsave("correlacion_OD_biomasa.png", plot = grafico,
        width = 15, height = 10, units = "cm",
        dpi = 1200, bg = "white")
+
+# --------------------------------------------------------------------------
+# Interpretación: Correlación entre Densidad Óptica y Biomasa Seca
+# --------------------------------------------------------------------------
+# - Eje X: Densidad Óptica (OD) medida a 600 nm. La densidad óptica es una medida de
+#   absorbancia: cuánta luz absorbe el cultivo. Es adimensional, es decir, no tiene
+#   unidades: es un número sin unidad. El '600 nm' no es la unidad del eje, sino la
+#   longitud de onda de la luz con la que se midió la absorbancia.
+# - Eje Y: Biomasa Seca, en gramos por litro (g/L). Es el peso seco de las células
+#   (biomasa) contenido en un litro de cultivo. Cada punto es una medición de un día
+#   y una réplica (R1, R2 o R3, por color).
+# - Lo que se aprecia: los puntos suben de izquierda a derecha formando una nube
+#   alargada y bastante ordenada alrededor de una línea recta roja. Eso significa
+#   que cuando la densidad óptica es mayor, la biomasa seca también es mayor. La
+#   línea roja es la recta de regresión lineal ajustada a los datos y la banda
+#   rosada alrededor es su intervalo de confianza. El ajuste da un R² de aprox.
+#   0.89: es decir, alrededor del 89% de la variación de la biomasa se explica por
+#   la densidad óptica. La ecuación anotada en el gráfico (y = 0.0405x - 0.0013)
+#   dice que por cada unidad que sube la OD, la biomasa sube aprox. 0.0405 g/L.
+# - Qué significa: la densidad óptica y la biomasa seca están fuertemente
+#   relacionadas de forma lineal. En la práctica, esto permite estimar la biomasa de
+#   un cultivo midiendo solo la densidad óptica, que es rápida y no destruye la
+#   muestra, en lugar de secar y pesar la biomasa cada vez. Eso sí: correlación no
+#   es lo mismo que causalidad; la recta describe cómo varían juntas, no que una
+#   cause a la otra.
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Qué es la densidad óptica (OD): una medida adimensional de absorbancia. El número
+#   600 nm indica la longitud de onda de la medición, no una unidad del eje.
+# - Cómo leer un gráfico de correlación: cada punto es una pareja de valores (OD y
+#   biomasa) del mismo día y réplica; si los puntos suben juntos, hay correlación
+#   positiva.
+# - Qué es el R²: un número entre 0 y 1 que dice qué tan bien la recta resume la
+#   relación. Aquí R² es aprox. 0.89, una relación fuerte: la OD predice bien la
+#   biomasa.
+# - Que la ecuación de la recta sirve para predecir: con la OD medida se puede
+#   estimar la biomasa seca (en g/L) sin pesar la muestra.

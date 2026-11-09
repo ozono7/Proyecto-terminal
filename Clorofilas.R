@@ -124,3 +124,44 @@ print(grafico_final_leyenda)
 ggsave("clorofila_tratamientos.tiff", plot = grafico_final_leyenda,
        device = "tiff", dpi = 1200, bg = "white",
        width = 10, height = 6, units = "in", compression = "lzw")
+
+# --------------------------------------------------------------------------
+# Interpretación: Concentración de Clorofila Total por Tratamiento
+# --------------------------------------------------------------------------
+# - Eje X: Grupo de Tratamiento (CONTROL, -50, 50% y 100%). Es una variable
+#   categórica, sin unidades: cada barra es un tratamiento distinto, no una cantidad
+#   que aumente de izquierda a derecha.
+# - Eje Y: Clorofila Total, en miligramos por litro (mg L⁻¹). La altura de cada
+#   barra es la media de las 3 repeticiones de ese tratamiento. La línea vertical
+#   que cruza cada barra es la barra de error: muestra la desviación estándar (DE),
+#   es decir, cuánto variaron las repeticiones alrededor de la media. También está
+#   en mg L⁻¹, igual que el eje Y.
+# - Lo que se aprecia: las cuatro barras están en un rango parecido, entre aprox.
+#   4.86 y 8.34 mg L⁻¹. La más baja es el CONTROL (media de aprox. 4.86 mg L⁻¹) y
+#   la más alta es el tratamiento -50 (aprox. 8.34 mg L⁻¹), seguida del 100%
+#   (aprox. 8.07 mg L⁻¹) y del 50% (aprox. 7.52 mg L⁻¹). Es decir, en promedio los
+#   tres tratamientos quedaron por encima del control, pero las barras de error son
+#   anchas, sobre todo en el CONTROL y en -50, lo que indica mucha variación entre
+#   las repeticiones de un mismo tratamiento.
+# - Qué significa: en promedio los tratamientos acumularon más clorofila total que
+#   el control, pero la variación entre repeticiones es grande, así que la media
+#   sola no basta para concluir. Hay que mirar los símbolos sobre cada barra, que
+#   son el resultado de la prueba de Dunnett, que compara cada tratamiento contra el
+#   CONTROL (ns = sin diferencia significativa, p > 0.05; * p ≤ 0.05; ** p ≤ 0.01;
+#   *** p ≤ 0.001).
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Cómo leer un gráfico de barras con media y desviación estándar: la altura de la
+#   barra es el promedio de las repeticiones y la barra de error indica cuánto se
+#   dispersaron esas repeticiones.
+# - Que el eje X puede ser categórico (tratamientos) y no tener unidades, mientras
+#   que el eje Y sí las tiene: aquí, miligramos por litro (mg L⁻¹).
+# - Que dos barras con medias distintas no siempre son estadísticamente distintas:
+#   por eso se usa la prueba de Dunnett para comparar cada tratamiento contra el
+#   control antes de sacar conclusiones.
+# - Que los tres tratamientos quedaron en promedio por encima del control en clorofila
+#   total (el más alto fue -50%, aprox. 8.34 mg L⁻¹, y el control el más bajo, aprox.
+#   4.86 mg L⁻¹), y que los símbolos sobre las barras indican si cada tratamiento
+#   difiere del control según la prueba de Dunnett.

@@ -137,3 +137,40 @@ ggplot() +
 ggsave("crecimiento.png", 
        width = 10, height = 6, dpi = 300, bg = "white")
 
+# --------------------------------------------------------------------------
+# Interpretación: Cinética de crecimiento
+# --------------------------------------------------------------------------
+# - Eje X: Tiempo, en días (de 0 a 12 días). Cada punto es un día de cultivo.
+# - Eje Y: Densidad óptica (OD) medida a 600 nm. La densidad óptica es una medida de
+#   absorbancia: cuánta luz absorbe el cultivo, que crece cuando hay más células.
+#   Es adimensional, es decir, no tiene unidades: es un número sin unidad (por eso
+#   el eje solo dice OD). El '600 nm' no es la unidad del eje, sino la longitud de
+#   onda de la luz con la que se midió la absorbancia.
+# - Lo que se aprecia: en los cuatro tratamientos la densidad óptica sube con el
+#   tiempo, como una curva de crecimiento: al inicio todas parten de OD 0.09 en el
+#   día 0 y luego suben. El Control llega más alto (media de aprox. 0.91 al día 12)
+#   y crece más rápido a partir del día 4 o 5. El tratamiento 50% queda en medio
+#   (aprox. 0.69 al día 12) y los tratamientos -50% y 100% son los más bajos
+#   (aprox. 0.60 y 0.59 al día 12). Cada línea es la media de 3 réplicas, los puntos
+#   son las réplicas individuales y la banda de color suave alrededor de la línea es
+#   la desviación estándar.
+# - Qué significa: todos los cultivos crecieron durante los 12 días, pero el Control
+#   creció más y más rápido que los demás tratamientos. Que las curvas se separen a
+#   partir del día 4 o 5 indica que el efecto de cada tratamiento sobre el
+#   crecimiento se nota con el paso de los días, no desde el inicio.
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Qué es la densidad óptica (OD): una medida adimensional de absorbancia que sirve
+#   para seguir el crecimiento de un cultivo sin contar células una por una. El
+#   número 600 nm indica la longitud de onda de la medición, no una unidad del eje.
+# - Cómo leer una cinética de crecimiento: el eje X es el tiempo, el eje Y es la
+#   cantidad de biomasa (aquí, OD), y la pendiente de la curva indica qué tan rápido
+#   crece el cultivo en cada momento.
+# - Que en un gráfico de líneas con réplicas, los puntos muestran los datos reales,
+#   la línea muestra la media y la banda de color muestra la variación entre
+#   réplicas (desviación estándar).
+# - Que la densidad óptica se midió a 600 nm y es adimensional (no tiene unidades),
+#   y que el Control creció más que los demás tratamientos (OD de aprox. 0.91 al día
+#   12), con las curvas separándose a partir del día 4 o 5.

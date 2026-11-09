@@ -143,6 +143,32 @@ ggsave("concentracion_lipidos_neutros.tiff", plot = grafico_final_leyenda,
        device = "tiff", dpi = 1200, bg = "white",
        width = 8, height = 6, units = "in", compression = "lzw")
 
+# --------------------------------------------------------------------------
+# Interpretación: Concentración de Lípidos Neutros
+# --------------------------------------------------------------------------
+# - Eje X: Tratamiento (Control, Reducción 50%, Aumento 50% y Aumento 100%). Es una
+#   variable categórica, sin unidades: cada barra es un tratamiento distinto. Ojo:
+#   en este gráfico las etiquetas del eje X están ocultas a propósito y los
+#   tratamientos se identifican por el color de cada barra y por la leyenda de abajo.
+# - Eje Y: Concentración de Lípidos Neutros, en miligramos por litro (mg/L). La
+#   altura de cada barra es la media de las repeticiones de ese tratamiento. La
+#   línea vertical que cruza cada barra es la barra de error: muestra la desviación
+#   estándar (DE), es decir, cuánto variaron las repeticiones alrededor de la media.
+#   También está en mg/L, igual que el eje Y.
+# - Lo que se aprecia: la barra más alta es la de Reducción 50% (media de aprox.
+#   2.39 mg/L) y la más baja es el Control (media de aprox. 0.41 mg/L). Aumento 50%
+#   queda en aprox. 0.93 mg/L y Aumento 100% en aprox. 0.53 mg/L. La barra de error
+#   de Reducción 50% es muy grande: dentro de ese tratamiento las repeticiones
+#   variaron mucho entre sí (de aprox. 1.11 a 3.81 mg/L).
+# - Qué significa: en promedio, el tratamiento de Reducción 50% acumuló más lípidos
+#   neutros que el control y que los demás tratamientos. Pero como la variación
+#   entre repeticiones es grande, la media sola no basta para concluir: hay que
+#   mirar los símbolos sobre cada barra, que son el resultado de la prueba de
+#   Dunnett, que compara cada tratamiento contra el Control (ns = sin diferencia
+#   significativa, p > 0.05; * p ≤ 0.05; ** p ≤ 0.01; *** p ≤ 0.001). La sección
+#   'LEYENDA DE ANÁLISIS ESTADÍSTICO' al final del script explica estos símbolos.
+
+
 # ----------------------------------
 # 5 LEYENDA DE ANÁLISIS ESTADÍSTICO
 # ----------------------------------
@@ -158,3 +184,17 @@ ns  = no significativo (p > 0.05)
 ** = p ≤ 0.01
 *** = p ≤ 0.001
 ")
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Cómo leer un gráfico de barras con media y desviación estándar: la altura de la
+#   barra es el promedio de las repeticiones y la barra de error indica cuánto se
+#   dispersaron esas repeticiones.
+# - Que el eje X puede ser categórico (tratamientos) y no tener unidades, mientras
+#   que el eje Y sí las tiene: aquí, miligramos por litro (mg/L).
+# - Que en este gráfico los tratamientos no se leen en el eje X, sino en la leyenda
+#   de colores de abajo, porque las etiquetas del eje X están ocultas.
+# - Que una media alta con una barra de error grande es menos confiable, y por eso se
+#   usa la prueba de Dunnett para comparar cada tratamiento contra el control antes
+#   de sacar conclusiones.

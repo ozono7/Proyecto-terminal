@@ -124,3 +124,42 @@ print(grafico_final_carotenoides)
 ggsave("carotenoides_tratamientos.tiff", plot = grafico_final_carotenoides,
        device = "tiff", dpi = 1200, bg = "white",
        width = 10, height = 6, units = "in", compression = "lzw")
+
+# --------------------------------------------------------------------------
+# Interpretación: Concentración de Carotenoides por Tratamiento
+# --------------------------------------------------------------------------
+# - Eje X: Grupo de Tratamiento (CONTROL, -50%, 50% y 100%). Es una variable
+#   categórica, sin unidades: cada barra es un tratamiento distinto, no una cantidad
+#   que aumente de izquierda a derecha. Los tratamientos son niveles de un factor
+#   (por ejemplo, una dosis o condición aplicada al cultivo).
+# - Eje Y: Carotenoides Total, en miligramos por litro (mg L⁻¹). La altura de cada
+#   barra es la media de las 3 repeticiones de ese tratamiento. La línea vertical
+#   que cruza cada barra es la barra de error: muestra la desviación estándar (DE),
+#   es decir, cuánto variaron las repeticiones alrededor de la media. También está
+#   en mg L⁻¹, igual que el eje Y.
+# - Lo que se aprecia: la barra más alta es la del tratamiento -50% (media de
+#   aprox. 2.45 mg L⁻¹) y la más baja es la del 50% (media de aprox. 0.19 mg L⁻¹).
+#   El CONTROL queda en aprox. 0.95 mg L⁻¹ y el 100% en aprox. 1.65 mg L⁻¹. Las
+#   barras de error son grandes, sobre todo en -50% y en 100%: dentro de un mismo
+#   tratamiento las repeticiones dieron valores muy distintos entre sí.
+# - Qué significa: en promedio, el tratamiento -50% acumuló más carotenoides que el
+#   control, mientras que el 50% acumuló menos. Pero como la variación entre
+#   repeticiones es grande, la media sola no basta para concluir: hay que mirar los
+#   símbolos sobre cada barra, que son el resultado de la prueba de Dunnett, que
+#   compara cada tratamiento contra el CONTROL (ns = sin diferencia significativa,
+#   p > 0.05; * p ≤ 0.05; ** p ≤ 0.01; *** p ≤ 0.001).
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Cómo leer un gráfico de barras con media y desviación estándar: la altura de la
+#   barra es el promedio de las repeticiones y la barra de error indica cuánto se
+#   dispersaron esas repeticiones.
+# - Que el eje X puede ser categórico (tratamientos) y no tener unidades, mientras
+#   que el eje Y sí las tiene: aquí, miligramos por litro (mg L⁻¹).
+# - Que una media alta con una barra de error grande es menos confiable que una media
+#   parecida con una barra de error pequeña, y por eso se usa una prueba estadística
+#   (Dunnett) para comparar cada tratamiento contra el control.
+# - Que el tratamiento -50% tuvo la media más alta de carotenoides (aprox. 2.45 mg L⁻¹)
+#   y el 50% la más baja (aprox. 0.19 mg L⁻¹), y que los símbolos sobre las barras
+#   indican si cada tratamiento difiere del control según la prueba de Dunnett.

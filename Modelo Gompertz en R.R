@@ -237,3 +237,47 @@ ggsave("modelo_gompertz_final.tif",
        plot = grafico,
        width = 18, height = 14, units = "cm",
        dpi = 1200, bg = "white")
+
+# --------------------------------------------------------------------------
+# Interpretación: Ajuste del modelo de Gompertz
+# --------------------------------------------------------------------------
+# - Eje X: Tiempo, en horas (de 0 a 300 horas, es decir, de 0 a 12 días, porque cada
+#   día tiene 24 horas: el script calcula Horas = Días x 24).
+# - Eje Y: log(N/N0), el logaritmo natural del crecimiento relativo. N es la densidad
+#   óptica (OD) medida a 750 nm en cada tiempo y N0 es la densidad óptica inicial
+#   (OD = 0.1 en el tiempo 0). Es adimensional, es decir, no tiene unidades: al
+#   dividir N entre N0 las unidades se cancelan y queda solo un número, y el
+#   logaritmo de ese número tampoco tiene unidades. Un valor de 0 significa que el
+#   cultivo está igual que al inicio; un valor de 1 significa que la OD es unas
+#   2.72 veces la inicial (porque es logaritmo natural). El '750 nm' es la longitud
+#   de onda con la que se midió la OD, no la unidad del eje.
+# - Lo que se aprecia: los puntos de colores son las mediciones reales de las tres
+#   réplicas (OD1, OD2 y OD3). La línea roja punteada es la media de las réplicas
+#   en cada tiempo y la banda rosada alrededor es la desviación estándar. La curva
+#   oscura continua es el modelo de Gompertz ajustado a esos datos. La forma es una
+#   'S' suave: al inicio sube despacio (fase de latencia o adaptación), luego sube
+#   rápido (fase exponencial) y al final se aplana (el crecimiento se detiene y se
+#   llega a un máximo). El subtítulo del gráfico resume el ajuste con tres
+#   parámetros: μ (mu), λ (lambda) y μ máx.
+# - Qué significa: el modelo de Gompertz resume toda la curva de crecimiento en tres
+#   números con sentido biológico. μ es la tasa de crecimiento, en 1/horas (h⁻¹):
+#   qué tan rápido crece el cultivo. λ es el tiempo de latencia, en horas (h):
+#   cuánto tarda el cultivo en empezar a crecer. La asíntota A, en las mismas
+#   unidades adimensionales que el eje Y, es el crecimiento máximo que alcanza el
+#   cultivo. Que la curva del modelo pase cerca de los puntos y de la línea de la
+#   media indica que el modelo describe bien el crecimiento observado.
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Qué es log(N/N0): una forma de medir el crecimiento relativo. Como es un cociente
+#   entre dos densidades ópticas, no tiene unidades (es adimensional), y el valor 0
+#   significa 'igual que al inicio'.
+# - Cómo leer una curva de crecimiento en escala logarítmica: la forma de 'S' muestra
+#   las fases de latencia, crecimiento rápido y estabilización del cultivo.
+# - Qué resume el modelo de Gompertz: tres parámetros con unidades claras, μ en h⁻¹
+#   (qué tan rápido crece), λ en horas (cuánto tarda en arrancar) y la asíntota A
+#   (hasta cuánto crece), además del tiempo de duplicación td, en horas.
+# - Que un modelo no es solo una curva bonita: sirve para comparar cultivos con
+#   números (por ejemplo, cuál tiene menor latencia o mayor velocidad) en lugar de
+#   comparar curvas a ojo.

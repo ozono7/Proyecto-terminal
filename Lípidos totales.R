@@ -134,3 +134,44 @@ print(grafico_final_leyenda)
 ggsave("rendimiento_lipidos.tiff", plot = grafico_final_leyenda,
        device = "tiff", dpi = 1200, bg = "white",
        width = 8, height = 6, units = "in", compression = "lzw")
+
+# --------------------------------------------------------------------------
+# Interpretación: Rendimiento de Lípidos Totales
+# --------------------------------------------------------------------------
+# - Eje X: Tratamiento (Control, Reducción 50%, Aumento 50% y Aumento 100%). Es una
+#   variable categórica, sin unidades: cada barra es un tratamiento distinto. Ojo:
+#   en este gráfico las etiquetas del eje X están ocultas a propósito y los
+#   tratamientos se identifican por el color de cada barra y por la leyenda de abajo.
+# - Eje Y: Rendimiento de Lípidos, en porcentaje (%). La altura de cada barra es la
+#   media de las 3 repeticiones de ese tratamiento. La línea vertical que cruza cada
+#   barra es la barra de error: muestra la desviación estándar (DE), es decir,
+#   cuánto variaron las repeticiones alrededor de la media. También está en
+#   porcentaje, igual que el eje Y. Nota: el archivo indica la unidad (%) pero no
+#   especifica respecto a qué se calcula ese porcentaje (por ejemplo, respecto a
+#   qué masa de biomasa), así que eso no se puede deducir de este script.
+# - Lo que se aprecia: la barra más alta es la de Reducción 50% (media de aprox.
+#   26.87%) y la más baja es la de Aumento 50% (media de aprox. 16.90%), casi igual
+#   que Aumento 100% (aprox. 17.18%). El Control queda en medio, en aprox. 22.52%.
+#   Las barras de error son pequeñas comparadas con las de otros gráficos, lo que
+#   indica que las 3 repeticiones de cada tratamiento dieron valores parecidos.
+# - Qué significa: en promedio, el tratamiento de Reducción 50% rindió más lípidos
+#   totales (en porcentaje) que el control, mientras que los tratamientos de Aumento
+#   50% y Aumento 100% rindieron menos que el control. Como las repeticiones
+#   variaron poco, estas medias son más confiables. Aun así, hay que mirar los
+#   símbolos sobre cada barra, que son el resultado de la prueba de Dunnett, que
+#   compara cada tratamiento contra el Control (ns = sin diferencia significativa,
+#   p > 0.05; * p ≤ 0.05; ** p ≤ 0.01; *** p ≤ 0.001).
+
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Cómo leer un gráfico de barras con media y desviación estándar: la altura de la
+#   barra es el promedio de las repeticiones y la barra de error indica cuánto se
+#   dispersaron esas repeticiones.
+# - Que el eje Y puede estar en porcentaje (%), que es una unidad adimensional: un
+#   porcentaje no tiene unidades físicas, es una parte de cada cien.
+# - Que en este gráfico los tratamientos no se leen en el eje X, sino en la leyenda
+#   de colores de abajo, porque las etiquetas del eje X están ocultas.
+# - Que una barra de error pequeña indica que las repeticiones coincidieron entre sí
+#   y que la media es más confiable, y que aun así la comparación formal contra el
+#   control se hace con la prueba de Dunnett.
