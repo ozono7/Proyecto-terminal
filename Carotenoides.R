@@ -1,4 +1,17 @@
-# ----------------------------------
+# ==========================================================================
+# Concentración de carotenoides por tratamiento
+# ==========================================================================
+# Autor: Dr. José Juan Torres Martínez
+# Docente de Ciencias Químicas
+# Universidad Autónoma de San Luis Potosí (UASLP)
+# México
+#
+# Material académico para estudiantes
+#
+# Descripción: Análisis estadístico (prueba de Dunnett) y gráfico de la concentración de carotenoides por tratamiento.
+# ==========================================================================
+
+
 # 1. CARGAR PAQUETES Y DATOS
 # ----------------------------------
 library(tidyverse)

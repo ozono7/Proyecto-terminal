@@ -1,3 +1,17 @@
+# ==========================================================================
+# Cinética de crecimiento
+# ==========================================================================
+# Autor: Dr. José Juan Torres Martínez
+# Docente de Ciencias Químicas
+# Universidad Autónoma de San Luis Potosí (UASLP)
+# México
+#
+# Material académico para estudiantes
+#
+# Descripción: Análisis de la cinética de crecimiento celular a partir de datos de densidad óptica.
+# ==========================================================================
+
+
 # Cargar las librerías necesarias
 library(ggplot2)
 library(tidyr)
