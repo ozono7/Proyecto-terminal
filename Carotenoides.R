@@ -22,11 +22,22 @@ library(ggtext)
 datos_carotenoides <- data.frame(
   Grupo = factor(rep(c("CONTROL", "-50%", "50%", "100%"), each = 3), levels = c("CONTROL", "-50%", "50%", "100%")),
   Repetición = factor(rep(1:3, 4)),
-  Carotenoides_Total = c(1.607437, 1.293179, -0.050430,
+  Carotenoides_Total_original = c(1.607437, 1.293179, -0.050430,
                          2.116677, 0.928509, 4.309613,
                          0.011860, -0.170163, 0.735460,
                          2.969862, 2.429413, -0.455743)
 )
+
+# Valores negativos: tres mediciones dieron concentración negativa (-0.050430 en
+# CONTROL, -0.170163 en 50% y -0.455743 en 100%), lo cual es físicamente imposible
+# para una concentración. Son valores por debajo del límite de detección: al
+# restar el blanco, una muestra sin carotenoides detectables puede dar un número
+# negativo por el ruido de la medición (Analytical Methods Committee, Royal
+# Society of Chemistry, 2001, "What should be done with results below the
+# detection limit?", AMC Technical Brief No. 5). Para el análisis esos valores
+# se registran como 0 (no detectado); los valores originales se conservan en
+# Carotenoides_Total_original.
+datos_carotenoides$Carotenoides_Total <- pmax(datos_carotenoides$Carotenoides_Total_original, 0)
 
 # ----------------------------------
 # 2. ANÁLISIS ESTADÍSTICO
@@ -138,10 +149,17 @@ ggsave("carotenoides_tratamientos.png", plot = grafico_final_carotenoides,
 #   es decir, cuánto variaron las repeticiones alrededor de la media. También está
 #   en mg L⁻¹, igual que el eje Y.
 # - Lo que se aprecia: la barra más alta es la del tratamiento -50% (media de
-#   aprox. 2.45 mg L⁻¹) y la más baja es la del 50% (media de aprox. 0.19 mg L⁻¹).
-#   El CONTROL queda en aprox. 0.95 mg L⁻¹ y el 100% en aprox. 1.65 mg L⁻¹. Las
+#   aprox. 2.45 mg L⁻¹) y la más baja es la del 50% (media de aprox. 0.25 mg L⁻¹).
+#   El CONTROL queda en aprox. 0.97 mg L⁻¹ y el 100% en aprox. 1.80 mg L⁻¹. Las
 #   barras de error son grandes, sobre todo en -50% y en 100%: dentro de un mismo
 #   tratamiento las repeticiones dieron valores muy distintos entre sí.
+# - Tres mediciones dieron valores negativos (-0.050430 en CONTROL, -0.170163 en
+#   50% y -0.455743 en 100%): no son concentraciones reales, son muestras por
+#   debajo del límite de detección y en el análisis se registran como 0 (no
+#   detectado), con los valores originales conservados en el script. Con ese
+#   cambio las medias quedan en aprox. 0.97 (CONTROL), 2.45 (-50%), 0.25 (50%) y
+#   1.80 (100%) mg L⁻¹, y la prueba de Dunnett sigue sin encontrar diferencias
+#   significativas contra el control.
 # - Qué significa: en promedio, el tratamiento -50% acumuló más carotenoides que el
 #   control, mientras que el 50% acumuló menos. Pero como la variación entre
 #   repeticiones es grande, la media sola no basta para concluir: hay que mirar los
@@ -160,6 +178,9 @@ ggsave("carotenoides_tratamientos.png", plot = grafico_final_carotenoides,
 # - Que una media alta con una barra de error grande es menos confiable que una media
 #   parecida con una barra de error pequeña, y por eso se usa una prueba estadística
 #   (Dunnett) para comparar cada tratamiento contra el control.
+# - Que una concentración negativa no es un dato real: es una muestra por debajo
+#   del límite de detección y en el análisis se registra como 0 (no detectado),
+#   sin borrar el valor original.
 # - Que el tratamiento -50% tuvo la media más alta de carotenoides (aprox. 2.45 mg L⁻¹)
-#   y el 50% la más baja (aprox. 0.19 mg L⁻¹), y que los símbolos sobre las barras
+#   y el 50% la más baja (aprox. 0.25 mg L⁻¹), y que los símbolos sobre las barras
 #   indican si cada tratamiento difiere del control según la prueba de Dunnett.

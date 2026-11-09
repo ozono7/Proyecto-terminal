@@ -35,12 +35,22 @@ datos_lipidos_neutros_raw <- data.frame(
 # ----------------------------------
 # 2. PREPARACIÓN DE DATOS (VERSIÓN CORREGIDA)
 # ----------------------------------
+# Cada repetición biológica (rep1, rep2, rep3) tiene 3 subrepeticiones técnicas
+# (_1, _2, _3): son tres mediciones de la misma repetición, no 9 repeticiones
+# independientes. Contarlas como independientes sería pseudorreplicación
+# (Hurlbert 1984, Ecol. Monogr. 54:187-211): se inflan los grados de libertad
+# y el ANOVA da significativo con demasiada facilidad. Por eso primero se
+# promedia cada grupo de 3 subrepeticiones y el ANOVA y la prueba de Dunnett
+# usan n = 3 repeticiones biológicas por tratamiento, igual que en los demás
+# archivos. Los datos originales completos se conservan arriba, en
+# datos_lipidos_neutros_raw.
 datos_lipidos_neutros_long <- datos_lipidos_neutros_raw %>%
   pivot_longer(-Tratamiento,
                names_to = c("Repeticion", "Subrep"),
                names_sep = "_",
                values_to = "Concentracion_lipidos") %>%
-  dplyr::select(-Subrep) %>%  # Especificamos el paquete para select
+  group_by(Tratamiento, Repeticion) %>%
+  summarise(Concentracion_lipidos = mean(Concentracion_lipidos), .groups = "drop") %>%
   mutate(
     Tratamiento = factor(Tratamiento, 
                          levels = c("Control", "-50%", "50%", "100%"),
@@ -158,15 +168,18 @@ ggsave("concentracion_lipidos_neutros.png", plot = grafico_final_leyenda,
 # - Lo que se aprecia: la barra más alta es la de Reducción 50% (media de aprox.
 #   2.39 mg/L) y la más baja es el Control (media de aprox. 0.41 mg/L). Aumento 50%
 #   queda en aprox. 0.93 mg/L y Aumento 100% en aprox. 0.53 mg/L. La barra de error
-#   de Reducción 50% es muy grande: dentro de ese tratamiento las repeticiones
-#   variaron mucho entre sí (de aprox. 1.11 a 3.81 mg/L).
+#   de Reducción 50% es muy grande: dentro de ese tratamiento las medias de las
+#   3 repeticiones variaron mucho entre sí (de aprox. 1.58 a 3.65 mg/L).
 # - Qué significa: en promedio, el tratamiento de Reducción 50% acumuló más lípidos
 #   neutros que el control y que los demás tratamientos. Pero como la variación
 #   entre repeticiones es grande, la media sola no basta para concluir: hay que
 #   mirar los símbolos sobre cada barra, que son el resultado de la prueba de
 #   Dunnett, que compara cada tratamiento contra el Control (ns = sin diferencia
-#   significativa, p > 0.05; * p ≤ 0.05; ** p ≤ 0.01; *** p ≤ 0.001). La sección
-#   'LEYENDA DE ANÁLISIS ESTADÍSTICO' al final del script explica estos símbolos.
+#   significativa, p > 0.05; * p ≤ 0.05; ** p ≤ 0.01; *** p ≤ 0.001). Con n = 3
+#   repeticiones biológicas por tratamiento, solo Reducción 50% difiere del
+#   Control de forma significativa (p ≈ 0.034, *); Aumento 50% y Aumento 100% no
+#   difieren del Control. La sección 'LEYENDA DE ANÁLISIS ESTADÍSTICO' al final
+#   del script explica estos símbolos.
 
 
 # ----------------------------------
@@ -177,6 +190,7 @@ ANÁLISIS ESTADÍSTICO
 ---------------------------------
 Método: ANOVA unidireccional + prueba de Dunnett
 Comparación: Cada tratamiento vs Control
+n: 3 repeticiones biológicas por tratamiento (media de 3 subrepeticiones técnicas)
 
 NIVELES DE SIGNIFICANCIA:
 ns  = no significativo (p > 0.05)
@@ -198,3 +212,7 @@ ns  = no significativo (p > 0.05)
 # - Que una media alta con una barra de error grande es menos confiable, y por eso se
 #   usa la prueba de Dunnett para comparar cada tratamiento contra el control antes
 #   de sacar conclusiones.
+# - Que las subrepeticiones técnicas no son repeticiones independientes: tres
+#   mediciones de la misma repetición se promedian en un solo valor antes del
+#   ANOVA, para no inflar la significancia (pseudorreplicación). Aquí el ANOVA
+#   usa n = 3 por tratamiento, como en los demás análisis.

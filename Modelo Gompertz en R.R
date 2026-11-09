@@ -86,8 +86,16 @@ resumen <- datos_largos %>%
 # Parámetros:
 # t: tiempo
 # A: Asíntota (máximo crecimiento posible)
-# μ: Tasa de crecimiento inicial
+# μ: Tasa máxima de crecimiento (μ_m de Zwietering et al. 1990, ver abajo)
 # λ: Tiempo de latencia (retraso antes del crecimiento)
+#
+# Forma modificada de Gompertz (Zwietering et al. 1990, Appl. Environ.
+# Microbiol. 56:1875-1881): y = A * exp(-exp((μ*e/A)*(λ - t) + 1)). En esta
+# parametrización μ es directamente la tasa máxima de crecimiento: es la
+# pendiente de la tangente a la curva en su punto de inflexión, donde y = A/e.
+# Por eso μ_max = μ, sin multiplicar por A/e: la fórmula μ*A/e corresponde al
+# Gompertz original (y = a*exp(-exp(b - c*t))), que es otra parametrización y
+# no es la que usa este script.
 gompertz_logNN0 <- function(t, A, mu, lambda) {
   A * exp(-exp((mu * exp(1) / A) * (lambda - t) + 1))
 }
@@ -116,14 +124,15 @@ conf_int <- confint(ajuste)
 # Cálculo de parámetros derivados
 # -------------------------------
 # A: Asíntota (capacidad máxima de crecimiento)
-# μ: Tasa de crecimiento inicial
+# μ: Tasa máxima de crecimiento (μ_m)
 # λ: Tiempo de latencia
-# μ_max: Tasa máxima de crecimiento (μ_max = (μ*A)/e)
+# μ_max: Tasa máxima de crecimiento. En el Gompertz modificado μ ya es la
+#   tasa máxima (μ_max = μ); ver el comentario de la función gompertz_logNN0.
 # td: Tiempo de duplicación (td = ln(2)/μ_max)
 A <- params["A"]
 mu <- params["mu"]
 lambda <- params["lambda"]
-mu_max <- (mu * A) / exp(1)  # e ≈ 2.71828
+mu_max <- mu
 td <- log(2) / mu_max
 
 # ====================================================
@@ -142,11 +151,11 @@ cat(sprintf("μ (tasa crecimiento) = %.4f h⁻¹ (%.4f - %.4f)\n", mu, conf_int[
 lambda_inf_txt <- if (is.na(conf_int["lambda", 1])) "NA" else sprintf("%.4f", conf_int["lambda", 1])
 cat(sprintf("λ (tiempo latencia) = %.4f h (%s - %.4f)\n", lambda, lambda_inf_txt, conf_int["lambda", 2]))
 cat(sprintf("μ_max (tasa máxima) = %.4f h⁻¹ (%.4f - %.4f)\n", mu_max, 
-            (conf_int["mu",1] * A)/exp(1), 
-            (conf_int["mu",2] * A)/exp(1)))
+            conf_int["mu",1], 
+            conf_int["mu",2]))
 cat(sprintf("td (tiempo duplicación) = %.4f h (%.4f - %.4f)\n", td, 
-            log(2)/((conf_int["mu",2] * A)/exp(1)), 
-            log(2)/((conf_int["mu",1] * A)/exp(1))))
+            log(2)/conf_int["mu",2], 
+            log(2)/conf_int["mu",1]))
 cat("----------------------------------------\n")
 
 # ====================================================
@@ -261,8 +270,11 @@ ggsave("modelo_gompertz_final.png",
 #   llega a un máximo). El subtítulo del gráfico resume el ajuste con tres
 #   parámetros: μ (mu), λ (lambda) y μ máx.
 # - Qué significa: el modelo de Gompertz resume toda la curva de crecimiento en tres
-#   números con sentido biológico. μ es la tasa de crecimiento, en 1/horas (h⁻¹):
-#   qué tan rápido crece el cultivo. λ es el tiempo de latencia, en horas (h):
+#   números con sentido biológico. μ es la tasa máxima de crecimiento (μ_m), en
+#   1/horas (h⁻¹): qué tan rápido crece el cultivo en su punto más rápido. Como el
+#   ajuste usa el Gompertz modificado de Zwietering et al. (1990), μ ya es la
+#   pendiente máxima de la curva, así que μ_max = μ ≈ 0.0051 h⁻¹ y el tiempo de
+#   duplicación es td = ln(2)/μ_max ≈ 136 h. λ es el tiempo de latencia, en horas (h):
 #   cuánto tarda el cultivo en empezar a crecer. La asíntota A, en las mismas
 #   unidades adimensionales que el eje Y, es el crecimiento máximo que alcanza el
 #   cultivo. Que la curva del modelo pase cerca de los puntos y de la línea de la
@@ -282,3 +294,5 @@ ggsave("modelo_gompertz_final.png",
 # - Que un modelo no es solo una curva bonita: sirve para comparar cultivos con
 #   números (por ejemplo, cuál tiene menor latencia o mayor velocidad) en lugar de
 #   comparar curvas a ojo.
+# - Que en el Gompertz modificado μ es ya la tasa máxima de crecimiento, así que
+#   μ_max = μ y td = ln(2)/μ: aquí μ_max es aprox. 0.0051 h⁻¹ y td aprox. 136 h.
